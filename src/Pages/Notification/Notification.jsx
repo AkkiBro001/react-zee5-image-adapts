@@ -1,4 +1,4 @@
-import { ActualImage, CopyText, CTASection, ExportSetion, ImportSection, PreviewImage, TransformSection, useNotification} from '../../Components';
+import { ActualImage, CopyText, CTASection, ExportSection, ImportSection, PreviewImage, TransformSection, useNotification} from '../../Components';
 
 
 
@@ -14,7 +14,7 @@ const Notification = () => {
     <TransformSection/>
     <CTASection/>
     <CopyText/>
-    <ExportSetion/>
+    <ExportSection/>
     {ShowActualImage && <ActualImage/>}
     </>
   )

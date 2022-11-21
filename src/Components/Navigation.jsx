@@ -6,7 +6,7 @@ const Navigation = () => {
   return (
     <Navbar bg="primary" variant="dark">
         <Container>
-          <Navbar.Brand href="/"><strong>ZEE5 Image Adapts</strong></Navbar.Brand>
+          <Navbar.Brand href="/"><strong className='fs-4'>ZEE5 Image Adapts</strong></Navbar.Brand>
           <Nav className="me-auto">
             <NavLink to="/" className=
             {({ isActive }) =>

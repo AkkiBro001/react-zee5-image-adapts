@@ -2,7 +2,9 @@
 const PreviewImage = () => {
     
   return (
-    <div>PreviewImage</div>
+    <div>
+      Preview Image
+    </div>
   )
 }
 
