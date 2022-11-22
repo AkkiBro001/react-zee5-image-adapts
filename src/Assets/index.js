@@ -19,5 +19,5 @@ export {default as SubscribeNow} from './SubscribeNow.png';
 export {default as Tamil} from './Tamil.png';
 export {default as Telugu} from './Telugu.png';
 export {default as WatchLiveNew} from './WatchLiveNew.png';
-export {default as WatchLiveNewsUpdates} from './WatchLiveNewsUpdates.png';
-export {default as WatchLiveNewWithshadow} from './WatchLiveNewWithshadow.png';
+export {default as WatchLiveStripUpdates} from './WatchLiveStripUpdates.png';
+export {default as WatchLiveStripWithShadow} from './WatchLiveStripWithShadow.png';

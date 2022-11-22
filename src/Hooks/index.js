@@ -1,0 +1,1 @@
+export {default as useHandleInput} from './useHandleInput';

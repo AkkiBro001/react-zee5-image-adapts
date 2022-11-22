@@ -47,9 +47,9 @@ export const CTAs = [
 "Tamil",
 "Telugu",
 "No CTA",
-"Watch Live New",
+"Watch Live Strip",
 "Watch Live News Updates",
-"Watch Live New With shadow",
+"Watch Live Strip With Shadow",
 "Watch Now",
 "Watch Live"
 ].reverse()
@@ -130,4 +130,13 @@ export const Channels = [
 "Zee-Hindustan",
 "Zee-News",
 "Zee-Punjab-Himachal",
+]
+
+export const COPYTEXT = [
+    "NO TEXT",
+    "IPL COURTASY",
+    "BCCI COURTASY",
+    "ICC COURTASY",
+    "FILE IMAGE",
+    "CUSTOME TEXT",
 ]

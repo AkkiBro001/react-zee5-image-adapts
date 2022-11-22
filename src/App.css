@@ -33,3 +33,17 @@ body{
   background-color: var(--bs-light);
   padding: 0.75em;
 }
+
+.toolTip svg{
+   font-size: 14px;
+   margin-left: 0.25em;
+   color: var(--bs-gray-500);
+   cursor: default;
+}
+
+.widthLinkCTA{
+  top: 75%;
+  left: 100%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  cursor: default;
+}

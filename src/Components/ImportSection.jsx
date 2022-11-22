@@ -11,12 +11,12 @@ const ImportSection = () => {
       </header>
       {expand && <div className="section__body">
         <Row className="mb-3">
-          <Col sm={8}>
-            <Form.Group controlId="formFileLg" className="mb-3 mb-sm-0">
+          <Col md={8}>
+            <Form.Group controlId="formFileLg" className="mb-3 mb-md-0">
               <Form.Control type="file" size="lg" />
             </Form.Group>
           </Col>
-          <Col sm={4}>
+          <Col md={4}>
             <Form.Select aria-label="Default select example" size="lg">
             <optgroup label="Notification Type">
               <option value="daily">Normal (1024x512)</option>
