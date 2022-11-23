@@ -1,16 +1,18 @@
 import React from 'react'
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Container, Nav, Navbar, Button } from 'react-bootstrap'
 import { NavLink } from "react-router-dom";
 import { AiFillSetting } from 'react-icons/ai'
 const Navigation = () => {
   return (
-    <Navbar bg="primary" variant="dark">
+    <Navbar bg="primary" variant="dark" expand="md">
       <Container>
-        <Navbar.Brand href="/react-zee5-image-adapts"><strong className='fs-3'>ZEE5 Image Adapts</strong></Navbar.Brand>
+        <Navbar.Brand href="/react-zee5-image-adapts" className='ms-2'><strong className='fs-4'>ZEE5 Image Adapts</strong></Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto fs-5">
           <NavLink to="/react-zee5-image-adapts/notification" className=
             {({ isActive }) =>
-              isActive ? 'text-light me-4 me-2 ms-2 text-decoration-none' : 'text-white-50 me-4 ms-2 text-decoration-none'
+              isActive ? 'text-light me-4 me-2 ms-md-2 text-decoration-none' : 'text-white-50 me-4 ms-md-2 text-decoration-none'
             }
           >Notification</NavLink>
           <NavLink to="/react-zee5-image-adapts/banner" className=
@@ -20,10 +22,14 @@ const Navigation = () => {
           >Banner</NavLink>
         </Nav>
         <Nav>
-          <Nav.Link className='fs-2'>
-            <AiFillSetting />
+          <Nav.Link>
+          <Button variant="outline-light" className='fs-5 d-flex align-items-center'>
+          <AiFillSetting className='lh-base me-2'/> 
+          <span>Setting</span>
+          </Button>
           </Nav.Link>
         </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   )
