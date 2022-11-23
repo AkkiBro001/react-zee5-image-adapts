@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-zee5-image-adapts/static/css/main.5d997e92.css",
+    "main.js": "/react-zee5-image-adapts/static/js/main.64d88617.js",
+    "index.html": "/react-zee5-image-adapts/index.html",
+    "main.5d997e92.css.map": "/react-zee5-image-adapts/static/css/main.5d997e92.css.map",
+    "main.64d88617.js.map": "/react-zee5-image-adapts/static/js/main.64d88617.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5d997e92.css",
+    "static/js/main.64d88617.js"
+  ]
+}
