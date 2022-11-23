@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Col, Row, Form } from 'react-bootstrap'
 import { TiPlus, TiMinus } from 'react-icons/ti'
-import { CTAs, Channels } from './CONSTANT'
+import { CTAs, Channels, DefaultChannelPosition } from './CONSTANT'
 import ApplyGradient from './ApplyGradient'
 import { useHandleInput } from '../Hooks'
 import {FaLink} from 'react-icons/fa';
@@ -44,12 +44,19 @@ const CTASection = () => {
               isChannelRequired && <><Form.Label className='fs-5 mt-1'><strong>Channel Position</strong></Form.Label>
                 <Form.Select aria-label="Default select example" size="lg" name="channelPOS" ref={customChannelRef}  onChange={(e) => { setInput(e) }}>
                   <optgroup label="Select Channel Position">
-
-                    <option value="top right">Top Right</option>
+                    {DefaultChannelPosition.map(ele =>{
+                      
+                      if(ele === "On Watch Live Strip"){
+                        return isWatchLiveNewActive && <option value={ele.toLowerCase()} key={ele}>{ele}</option>
+                    }else{
+                      return <option value={ele.toLowerCase()} key={ele}>{ele}</option>
+                    }
+                    })}
+                    {/* <option value="top right">Top Right</option>
                     <option value="top left">Top Left</option>
                     {
                       isWatchLiveNewActive && <option value="on watch live strip">On Watch Live Strip</option>}
-                    <option value="custom">Custom</option>
+                    <option value="custom">Custom</option> */}
 
                   </optgroup>
                 </Form.Select></>

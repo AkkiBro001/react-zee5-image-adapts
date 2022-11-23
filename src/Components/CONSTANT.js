@@ -133,10 +133,26 @@ export const Channels = [
 ]
 
 export const COPYTEXT = [
-    "NO TEXT",
+    "NO COPY",
     "IPL COURTASY",
     "BCCI COURTASY",
     "ICC COURTASY",
     "FILE IMAGE",
-    "CUSTOME TEXT",
+    "CUSTOM COPY",
+]
+
+export const DefaultChannelPosition = [
+    "Top Right",
+    "Top Left",
+    "Bottom Right",
+    "Bottom Left",
+    "On Watch Live Strip",
+    "Custom"
+]
+
+export const DefaultCopyPosition = ["Bottom Right", ...DefaultChannelPosition.filter(ele => ele === "On Watch Live Strip" ? false : ele === "Bottom Right" ? false : true)]
+
+export const OutPutFormat = [
+    "JPG",
+    "PNG"
 ]
