@@ -15,16 +15,16 @@ function App() {
 
 
         <Routes>
-          <Route path='/notification' element={
+          <Route path='/react-zee5-image-adapts/notification' element={
             <NotificationProvider>
               <Notification />
             </NotificationProvider>
           } />
-          <Route path='/'
+          <Route path='/react-zee5-image-adapts'
             element={<NotificationProvider>
               <Notification />
             </NotificationProvider>} />
-          <Route path='/banner' element={<Banner />} />
+          <Route path='/react-zee5-image-adapts/banner' element={<Banner />} />
         </Routes>
 
 
