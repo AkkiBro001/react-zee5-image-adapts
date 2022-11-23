@@ -71,12 +71,7 @@ const CopyText = () => {
               <Form.Label className='fs-6'><strong>Y-Axis</strong></Form.Label>
                 <Form.Control type="number" size="sm"className='p-1 text-center fs-6'  disabled={!isCustomCopyPostionActive}/>
               </Col>
-              {/* <Col md={6} lg={3} xs={3} className="position-relative">
-              <FaLink className="position-absolute fs-6 widthLinkCTA text-muted"/>
-              <Form.Label className='fs-6'><strong>Width</strong></Form.Label>
-                <Form.Control type="number"size="sm" className='p-1 text-center fs-6'  disabled={!isCustomCopyPostionActive}/>
-              </Col> */}
-              <Col md={12} lg={4} xs={4}>
+             <Col md={12} lg={4} xs={4}>
               <Form.Label className='fs-6'><strong>Font Size</strong></Form.Label>
                 <Form.Control type="number" size="sm" className='p-1 text-center fs-6' disabled={!isCustomCopyPostionActive}/>
               </Col>
