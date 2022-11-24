@@ -141,7 +141,7 @@ export const COPYTEXT = [
     "CUSTOM COPY",
 ]
 
-export const DefaultChannelPosition = [
+export const ChannelPosition = [
     "Top Right",
     "Top Left",
     "Bottom Right",
@@ -150,9 +150,18 @@ export const DefaultChannelPosition = [
     "Custom"
 ]
 
-export const DefaultCopyPosition = ["Bottom Right", ...DefaultChannelPosition.filter(ele => ele === "On Watch Live Strip" ? false : ele === "Bottom Right" ? false : true)]
+export const DefaultCopyPosition = ["Bottom Right", ...ChannelPosition.filter(ele => ele === "On Watch Live Strip" ? false : ele === "Bottom Right" ? false : true)]
 
 export const OutPutFormat = [
     "JPG",
     "PNG"
+]
+
+export const CTAPosition = [
+    "Bottom Center",
+    "Bottom Left",
+    "Bottom Right",
+    "Center Right ZB",
+    "Center Center",
+    "Custom"
 ]

@@ -41,7 +41,7 @@ const CopyText = () => {
             {/* COPY Position */}
             {isCustomCopyActive && <><Form.Label className='fs-5 mt-1'><strong>Copy Position</strong></Form.Label>
             <Form.Select aria-label="Default select example" size="lg" onChange={(e)=>setInput(e)} name="copy position" ref={customCopyPositionRef}>
-              <optgroup label="Select Copy">
+              <optgroup label="Select Copy Position">
                  {DefaultCopyPosition.map(pos => <option value={pos.toLowerCase()} key={pos}>{pos}</option>)}
                  
                 
