@@ -1,6 +1,14 @@
 import React from 'react'
-import { Modal, Button, Row, Col, Form, Nav } from 'react-bootstrap'
+import { Modal, Button, Row, Col, Form } from 'react-bootstrap'
+import ToolTip from './ToolTip'
+import { AiFillInfoCircle } from 'react-icons/ai';
+import LoacalSaveData from './LocalSaveData';
+
+
 const ModalBox = ({ showModal, handleCloseModal }) => {
+
+  
+
   return (
     <Modal show={showModal} onHide={handleCloseModal}>
       <Modal.Header closeButton>
@@ -9,8 +17,8 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
       <Modal.Body>
         {/* -------- General Setting ---------------------------------- */}
         <h2 className='fs-5 mb-3'>General Settings</h2>
-        <Row className='align-items-start'>
-          <Col xs={6} className="d-flex align-items-center">
+        <Row className='align-items-start g-2 align-items-center'>
+          <Col xs={12} sm={4} className="d-flex align-items-center">
             <Form.Label htmlFor="CanvasColor" className='me-2'>Canvas BG</Form.Label>
             <Form.Control
               type="color"
@@ -21,32 +29,60 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
             />
           </Col>
 
-          <Col xs={6}>
+          <Col xs={12} sm={5} className="d-flex align-items-center justify-content-sm-center">
             <Form.Check
               type="switch"
-              id="custom-switch"
+              id="floting-switch"
               label="Floating Preview"
             />
+
+            <ToolTip tip="Float preview screen while scrolling">
+              <Form.Label className='toolTip'>
+                <AiFillInfoCircle />
+              </Form.Label>
+            </ToolTip>
+          </Col>
+
+          <Col xs={12} sm={3} className="d-flex align-items-center justify-content-sm-end">
+            <Form.Check
+              type="switch"
+              id="guide-switch"
+              label="Guides"
+            />
+
+            <ToolTip tip="Enable/disable guidelines">
+              <Form.Label className='toolTip'>
+                <AiFillInfoCircle />
+              </Form.Label>
+            </ToolTip>
+          </Col>
+
+          <Col xs={12} sm={12} className="d-flex align-items-center justify-content-sm-center">
+            <Button variant="primary">
+              Reset All
+            </Button>
+            <ToolTip tip="Delete all saved template and restore default">
+              <Form.Label className='toolTip'>
+                <AiFillInfoCircle />
+              </Form.Label>
+            </ToolTip>
           </Col>
         </Row>
-        
+
 
         {/* -------- Notification Setting ---------------------------------- */}
-        <hr className='mt-3 mb-3'/>
+        <hr className='mt-3 mb-3' />
         <h2 className='fs-5 mb-3'><span>Notification Settings</span></h2>
-        <Row>
-          <Col>
-              <div>No Saved Custom CTA</div>
-          </Col>
-        </Row>
-
+        
+        <LoacalSaveData type="notification" subType="size" data={[{w:250, h:350}]}/>
+        <LoacalSaveData type="notification" subType="cta" data={[{name:"play now"}, {name:"what is this"}]}/>
 
         {/* -------- Banners Setting ---------------------------------- */}
-        <hr className='mt-3 mb-3'/>
+        <hr className='mt-3 mb-3' />
         <h2 className='fs-5 mb-3'><span>Banner Settings</span></h2>
         <Row>
           <Col>
-              <div>No Saved Custom CTA</div>
+            <div>No Saved Custom CTA</div>
           </Col>
         </Row>
       </Modal.Body>

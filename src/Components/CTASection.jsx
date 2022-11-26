@@ -207,28 +207,28 @@ const CTASection = () => {
               <Form.Control size="md" type="text" placeholder="Text Here..." />
             </Col>}
 
-            {/* x, y, Width, Height of CTA */}
+            {/* x, y, Width, Height, Radius of CTA */}
             <Col xs={CREAT_NEW_CTA ? 7 : 12} lg={CREAT_NEW_CTA ? 4 : 12} className="mt-lg-2">
               <Row className={`mt-lg-0 mt-1 g-2 text-dark ${!CREAT_NEW_CTA ? 'justify-content-center' : ''}`}>
 
-                <Col md={CREAT_NEW_CTA ? 6 : 5} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} className="mt-0">
+                <Col md={CREAT_NEW_CTA ? 6 : 2} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} sm={CREAT_NEW_CTA ? 12 : 2 } className="mt-0">
                   <Form.Label className='fs-6'><strong>X-Axis</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
-                <Col md={CREAT_NEW_CTA ? 6 : 5} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} className="mt-0">
+                <Col md={CREAT_NEW_CTA ? 6 : 2} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} sm={CREAT_NEW_CTA ? 12 : 2 } className="mt-0">
                   <Form.Label className='fs-6'><strong>Y-Axis</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
-                <Col md={CREAT_NEW_CTA ? 6 : 5} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} className="position-relative mt-0">
+                <Col md={CREAT_NEW_CTA ? 6 : 2} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} sm={CREAT_NEW_CTA ? 12 : 2 } className="position-relative mt-0">
                   <FaLink className="position-absolute fs-6 widthLinkCTA text-muted" />
                   <Form.Label className='fs-6'><strong>Width</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
-                <Col md={CREAT_NEW_CTA ? 6 : 5} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} className="mt-0">
+                <Col md={CREAT_NEW_CTA ? 6 : 2} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} sm={CREAT_NEW_CTA ? 12 : 2 } className="mt-0">
                   <Form.Label className='fs-6'><strong>Height</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
-                <Col md={CREAT_NEW_CTA ? 12 : 5} lg={CREAT_NEW_CTA ? 12 : 2} xs={CREAT_NEW_CTA ? 12 : 3} className="mt-1">
+                <Col md={CREAT_NEW_CTA ? 12 : 4} lg={CREAT_NEW_CTA ? 12 : 2} xs={CREAT_NEW_CTA ? 12 : 12} sm={CREAT_NEW_CTA ? 12 : 4 } className="mt-0">
                   <Form.Label className='fs-6'><strong><span>Border</span> Radius</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>

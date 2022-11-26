@@ -7,8 +7,12 @@ const DEFAULT_LIVE_CTA_SIZE = { width: 1024, height: 115 };
 
 const NOTIFICATION = {
 
-    /* Actual Size */
-    Size: DEFAULT_NOTI_SIZE,
+    /* Preview Size */
+    Preview: {
+        size: DEFAULT_NOTI_SIZE,
+        isFloting: false,
+        bgColor: '#000'
+    },
     /* Import Section */
     Import: {
         importedImage: [],
@@ -31,8 +35,9 @@ const NOTIFICATION = {
         isLIVECTA: false, /* Watch live With Strip is On */
         liveCtaSize: DEFAULT_LIVE_CTA_SIZE, /* Watch live With Strip Size */
         liveCtaPOS: DEFAULT_LIVE_CTA_POS, /* Watch live With Strip POS */
-        isCTACustomOn: false, /*is customize CTA On */
         /*Cutomize CTA*/
+        isCTACustomOn: false, /*is customize CTA On */
+        
 
 
         /*Channel*/
@@ -60,6 +65,12 @@ const NOTIFICATION = {
 
 
 
+}
+
+export const TitleCase = (str) => {
+    if (typeof str !== 'string') return str
+    const strArr = str.split(" ").map(word => word[0].toUpperCase() + word.slice(1))
+    return strArr.join(" ")
 }
 
 export const Notification_Type = [
