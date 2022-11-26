@@ -1,8 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Container, Nav, Navbar, Button } from 'react-bootstrap'
 import { NavLink } from "react-router-dom";
 import { AiFillSetting } from 'react-icons/ai'
+import ModalBox from './ModalBox';
+
 const Navigation = () => {
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
   return (
     <Navbar bg="primary" variant="dark" expand="md">
       <Container>
@@ -23,14 +28,16 @@ const Navigation = () => {
         </Nav>
         <Nav>
           <Nav.Link>
-          <Button variant="outline-light" className='fs-5 d-flex align-items-center'>
+          <Button variant="outline-light" className='fs-5 d-flex align-items-center' onClick={handleShowModal}>
           <AiFillSetting className='lh-base me-2'/> 
           <span>Setting</span>
           </Button>
           </Nav.Link>
         </Nav>
         </Navbar.Collapse>
+      <ModalBox showModal={showModal} handleCloseModal={handleCloseModal}/>
       </Container>
+
     </Navbar>
   )
 }

@@ -5,6 +5,8 @@ import { CTAs, Channels, ChannelPosition, CTAPosition } from './CONSTANT'
 import ApplyGradient from './ApplyGradient'
 import { useHandleInput } from '../Hooks'
 import { FaLink } from 'react-icons/fa';
+import { AiFillInfoCircle } from 'react-icons/ai'
+import ToolTip from './ToolTip'
 
 const CTASection = () => {
   /*REFs*/
@@ -30,6 +32,7 @@ const CTASection = () => {
   const isWatchLiveNewActive = !ctaRef.current ? false : WatchLiveStrip.includes(ctaRef.current?.value) ? true : false;
   const isCustomChannelActive = !customChannelRef.current ? false : customChannelRef.current?.value === "custom" ? true : false;
   const isCustomCtaActive = !ctaPosRef.current ? false : ctaPosRef.current?.value === "custom" ? true : false;
+  
 
   return (
     <div className="section">
@@ -44,14 +47,22 @@ const CTASection = () => {
           <Col sm={12} md={isChannelRequired ? 4 : 6} className="mb-md-0 mb-3 d-flex flex-column justify-content-lg-between">
             <Form.Label className='fs-5 d-flex justify-content-between align-items-center'>
               <strong>CTA</strong>
-              <Form.Check
+              {(ctaRef.current?.value === undefined || ctaRef.current?.value !== "NoCTA") && 
+              <><Form.Check
                 type="switch"
                 id="Custom-CTA"
                 label="Customize CTA"
-                className='fs-6'
+                className='fs-6 ms-auto'
                 onChange={() => setIsCustomizeCtaActive(pre => !pre)}
                 checked={isCustomizeCtaActive}
               />
+              <ToolTip tip="Customize CTA button like Resize, Repostion and Create new CTA">
+              <Form.Label className='toolTip'>
+                  <AiFillInfoCircle/>
+                </Form.Label>
+              </ToolTip>
+            </>
+            }
             </Form.Label>
             <Form.Select aria-label="Default select example" size="lg" onChange={(e) => { setInput(e) }} name="cta" ref={ctaRef}>
               <optgroup label="Select CTA Button">
@@ -68,7 +79,8 @@ const CTASection = () => {
             {
               isChannelRequired && <><Form.Label className='fs-5 mt-1 d-flex justify-content-between align-items-xl-center flex-xl-row flex-sm-column'>
                 <strong>Channel Position</strong>
-                {customChannelRef.current?.value !== DEFAULT_CHANNEL_POSITION && <Form.Check
+                
+                {(customChannelRef.current?.value !== undefined  && customChannelRef.current?.value !== DEFAULT_CHANNEL_POSITION) && <Form.Check
                   type="switch"
                   id="default-channel-pos"
                   label="Set as default"
@@ -144,7 +156,7 @@ const CTASection = () => {
 
         {/*===== CTA Customize ============================================================*/}
 
-        {isCustomizeCtaActive && <><Row className='mt-3 flex-md-row flex-column'>
+        {(isCustomizeCtaActive && ctaRef.current?.value !== "NoCTA") && <><Row className='mt-3 flex-md-row flex-column'>
           <hr />
 
           {/*CTA Position*/}
@@ -187,10 +199,10 @@ const CTASection = () => {
 
         {/*===== CTA Postion Custom Option =========================================================*/}
 
-          {isCustomCtaActive && <Row className='mt-2'>
+          {isCustomCtaActive && <Row className='mt-2 align-items-xl-start'>
               {/* CTA Name */}
-              {console.log(CREAT_NEW_CTA)}
-            {CREAT_NEW_CTA && <Col xs={12} lg={3}>
+              
+            {CREAT_NEW_CTA && <Col xs={12} lg={4}>
               <Form.Label className='fs-5 mt-0'><strong>CTA Name</strong></Form.Label>
               <Form.Control size="md" type="text" placeholder="Text Here..." />
             </Col>}
@@ -216,12 +228,16 @@ const CTASection = () => {
                   <Form.Label className='fs-6'><strong>Height</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
+                <Col md={CREAT_NEW_CTA ? 12 : 5} lg={CREAT_NEW_CTA ? 12 : 2} xs={CREAT_NEW_CTA ? 12 : 3} className="mt-1">
+                  <Form.Label className='fs-6'><strong><span>Border</span> Radius</strong></Form.Label>
+                  <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
+                </Col>
 
               </Row>
             </Col>
 
             {/* BG Color, Play Button, Save Button */}
-            {CREAT_NEW_CTA && <Col className='d-flex mt-lg-2 mt-1' xs={5} lg={5}>
+            {CREAT_NEW_CTA && <Col className='d-flex mt-lg-2 mt-1' xs={5} lg={4}>
               <Row className='g-2 w-100'>
                 <Col sm={12} lg={3} className="d-flex justify-content-end flex-column">
                   <Form.Label htmlFor="exampleColorInput" className='fs-6 mt-0'><strong>BG Color</strong></Form.Label>
