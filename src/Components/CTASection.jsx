@@ -19,7 +19,7 @@ const CTASection = () => {
   /*VARIABLE*/
   const DEFAULT_CHANNEL_POSITION = ChannelPosition[0].toLowerCase(); //Top Right
   const DEFAULT_CTA_POSITION = CTAPosition[0].toLowerCase(); //Bottom Center
-  const CREAT_NEW_CTA = isNewCtaRef.current?.value === "yes"; //Bottom Center
+  const CREATE_NEW_CTA = isNewCtaRef.current?.value === "yes"; //Bottom Center
   const NoChannel = Channels[0];
   const WatchLiveStrip = CTAs.filter(val => val.toLowerCase().includes("strip"))
     .map(val => val.replace(/\s/g, ""));
@@ -33,7 +33,7 @@ const CTASection = () => {
   const isCustomChannelActive = !customChannelRef.current ? false : customChannelRef.current?.value === "custom" ? true : false;
   const isCustomCtaActive = !ctaPosRef.current ? false : ctaPosRef.current?.value === "custom" ? true : false;
   
-
+  
   return (
     <div className="section">
       <header>
@@ -144,7 +144,7 @@ const CTASection = () => {
             </Row>}
           </Col>
 
-
+                
 
 
           {/* Gradient Option  */}
@@ -202,42 +202,42 @@ const CTASection = () => {
           {isCustomCtaActive && <Row className='mt-2 align-items-xl-start'>
               {/* CTA Name */}
               
-            {CREAT_NEW_CTA && <Col xs={12} lg={4}>
+            {CREATE_NEW_CTA && <Col xs={12} lg={4}>
               <Form.Label className='fs-5 mt-0'><strong>CTA Name</strong></Form.Label>
               <Form.Control size="md" type="text" placeholder="Text Here..." />
             </Col>}
 
             {/* x, y, Width, Height, Radius of CTA */}
-            <Col xs={CREAT_NEW_CTA ? 7 : 12} lg={CREAT_NEW_CTA ? 4 : 12} className="mt-lg-2">
-              <Row className={`mt-lg-0 mt-1 g-2 text-dark ${!CREAT_NEW_CTA ? 'justify-content-center' : ''}`}>
+            <Col xs={CREATE_NEW_CTA ? 7 : 12} lg={CREATE_NEW_CTA ? 4 : 12} className="mt-lg-2">
+              <Row className={`mt-lg-0 mt-1 g-2 text-dark ${!CREATE_NEW_CTA ? 'justify-content-center' : ''}`}>
 
-                <Col md={CREAT_NEW_CTA ? 6 : 2} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} sm={CREAT_NEW_CTA ? 12 : 2 } className="mt-0">
+                <Col md={CREATE_NEW_CTA ? 6 : 2} lg={CREATE_NEW_CTA ? 3 : 2} xs={CREATE_NEW_CTA ? 6 : 3} sm={CREATE_NEW_CTA ? 12 : 2 } className="mt-0">
                   <Form.Label className='fs-6'><strong>X-Axis</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
-                <Col md={CREAT_NEW_CTA ? 6 : 2} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} sm={CREAT_NEW_CTA ? 12 : 2 } className="mt-0">
+                <Col md={CREATE_NEW_CTA ? 6 : 2} lg={CREATE_NEW_CTA ? 3 : 2} xs={CREATE_NEW_CTA ? 6 : 3} sm={CREATE_NEW_CTA ? 12 : 2 } className="mt-0">
                   <Form.Label className='fs-6'><strong>Y-Axis</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
-                <Col md={CREAT_NEW_CTA ? 6 : 2} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} sm={CREAT_NEW_CTA ? 12 : 2 } className="position-relative mt-0">
+                <Col md={CREATE_NEW_CTA ? 6 : 2} lg={CREATE_NEW_CTA ? 3 : 2} xs={CREATE_NEW_CTA ? 6 : 3} sm={CREATE_NEW_CTA ? 12 : 2 } className="position-relative mt-0">
                   <FaLink className="position-absolute fs-6 widthLinkCTA text-muted" />
                   <Form.Label className='fs-6'><strong>Width</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
-                <Col md={CREAT_NEW_CTA ? 6 : 2} lg={CREAT_NEW_CTA ? 3 : 2} xs={CREAT_NEW_CTA ? 6 : 3} sm={CREAT_NEW_CTA ? 12 : 2 } className="mt-0">
+                <Col md={CREATE_NEW_CTA ? 6 : 2} lg={CREATE_NEW_CTA ? 3 : 2} xs={CREATE_NEW_CTA ? 6 : 3} sm={CREATE_NEW_CTA ? 12 : 2 } className="mt-0">
                   <Form.Label className='fs-6'><strong>Height</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
                 </Col>
-                <Col md={CREAT_NEW_CTA ? 12 : 4} lg={CREAT_NEW_CTA ? 12 : 2} xs={CREAT_NEW_CTA ? 12 : 12} sm={CREAT_NEW_CTA ? 12 : 4 } className="mt-0">
+                {CREATE_NEW_CTA && <Col md={CREATE_NEW_CTA ? 12 : 4} lg={CREATE_NEW_CTA ? 12 : 2} xs={CREATE_NEW_CTA ? 12 : 12} sm={CREATE_NEW_CTA ? 12 : 4 } className="mt-0">
                   <Form.Label className='fs-6'><strong><span>Border</span> Radius</strong></Form.Label>
                   <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
-                </Col>
+                </Col>}
 
               </Row>
             </Col>
 
             {/* BG Color, Play Button, Save Button */}
-            {CREAT_NEW_CTA && <Col className='d-flex mt-lg-2 mt-1' xs={5} lg={4}>
+            {CREATE_NEW_CTA && <Col className='d-flex mt-lg-2 mt-1' xs={5} lg={4}>
               <Row className='g-2 w-100'>
                 <Col sm={12} lg={3} className="d-flex justify-content-end flex-column">
                   <Form.Label htmlFor="exampleColorInput" className='fs-6 mt-0'><strong>BG Color</strong></Form.Label>

@@ -6,9 +6,10 @@ import { Notification_Type } from './CONSTANT'
 import { useHandleInput } from '../Hooks'
 import AlertBox from './AlertBox'
 
+
 const ImportSection = () => {
   const [expand, setExpand] = useState(true)
-  const [input, setInput] = useHandleInput({ name: '', value: '', showAlert: false, msg: null, alertType: 'danger' })
+  const [input, setInput] = useHandleInput()
   const notiTypeRef = useRef(null)
 
   const isCustomNotiTypeActive = !notiTypeRef.current?.value ? false : notiTypeRef.current?.value === 'custom' ? true : false;
@@ -20,11 +21,11 @@ const ImportSection = () => {
         {expand ? <TiMinus onClick={() => setExpand(false)} /> : <TiPlus onClick={() => setExpand(true)} />}
       </header>
       {expand && <div className="section__body">
-        <AlertBox stat={true} msg={"Wrong Input"} />
+        <AlertBox {...input}/>
         <Row className="mb-3">
           <Col md={8}>
             <Form.Group controlId="formFileLg" className="mb-3 mb-md-0">
-              <Form.Control type="file" size="lg" />
+              <Form.Control type="file" size="lg" onChange={(e)=>setInput(e)} accept=".jpg, .jpeg, .png, .webp"/>
             </Form.Group>
           </Col>
           <Col md={4}>

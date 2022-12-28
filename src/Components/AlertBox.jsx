@@ -1,16 +1,31 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import { Alert } from 'react-bootstrap'
 
-const AlertBox = ({stat, msg}) => {
+const AlertBox = ({name, value, type}) => {
+
+ 
   
-  const [show, setShow] = useState(stat)
+  const [display, setDisplay] = useState({
+    name,
+    value,
+    type,
+    show: true,
+    title: '',
+    errorType: 'danger',
+    msg: ''
+
+  })
+
+  useEffect(()=>{
+    console.log(value)
+  }, [name, value, type])
   
-  if(show)
+  if(display.show)
   return (
-    <Alert variant="danger" onClose={()=>setShow(false)} dismissible>
-        <Alert.Heading>{msg}</Alert.Heading>
+    <Alert variant={display.errorType} onClose={()=>setDisplay(preVal => ({...preVal, show: false}))} dismissible>
+        <Alert.Heading>{display.title}</Alert.Heading>
         <p>
-          {msg}
+          {display.msg}
         </p>
     </Alert>
   )

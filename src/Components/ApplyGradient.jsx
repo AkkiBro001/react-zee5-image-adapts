@@ -1,9 +1,19 @@
-import React from 'react'
+import React, {useRef, useEffect, useState} from 'react'
 import ToolTip from './ToolTip'
 import {AiFillInfoCircle} from 'react-icons/ai'
-import { Col, Row, Form, Button } from 'react-bootstrap'
+import { Col, Row, Form } from 'react-bootstrap'
+
+
 
 const ApplyGradient = ({tip, type}) => {
+  
+  const [isOn, setOn] = useState({
+    isDark: false,
+    isLight: false,
+  })
+
+  
+  
   return (
     <Row>
                 <Col xs={12}>
@@ -21,6 +31,9 @@ const ApplyGradient = ({tip, type}) => {
                   type="switch"
                   id={`${type}-dark`}
                   label="Dark Gradient"
+                  checked= {isOn.isDark}
+                  onChange={()=>setOn(preVal => ({isDark: !preVal.isDark, isLight: false}))}
+                  disabled={isOn.isLight}
                 />
                 </Col>
                 <Col md={12} lg={12} xl={6}>
@@ -28,6 +41,9 @@ const ApplyGradient = ({tip, type}) => {
                   type="switch"
                   id={`${type}-light`}
                   label="Light Gradient"
+                  checked= {isOn.isLight}
+                  onChange={()=>setOn(preVal => ({isDark: false, isLight: !preVal.isLight}))}
+                  disabled={isOn.isDark}
                 />
                 </Col>
                 <Col md={12} lg={12} xl={12} className="mt-3">

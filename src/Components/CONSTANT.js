@@ -6,9 +6,12 @@ const DEFAULT_LIVE_CTA_POS = { x: 0, y: 353 };
 const DEFAULT_LIVE_CTA_SIZE = { width: 1024, height: 115 };
 
 const NOTIFICATION = {
+    /* General */
+    resetAll: false,
 
     /* Preview Size */
     Preview: {
+        guides: false,
         size: DEFAULT_NOTI_SIZE,
         isFloting: false,
         bgColor: '#000'

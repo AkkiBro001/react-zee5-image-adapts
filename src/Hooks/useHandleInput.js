@@ -6,7 +6,7 @@ const useHandleInput = (defaultValue) => {
     function inputValue(event) {
         const {name, value, type} = event.target;
         
-        setValue(() => ({name, value}))
+        setValue(() => ({name, value, type}))
       }
   
   return [value, inputValue]
