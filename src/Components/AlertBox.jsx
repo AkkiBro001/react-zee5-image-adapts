@@ -17,7 +17,6 @@ const AlertBox = ({name, value, type}) => {
   })
 
   useEffect(()=>{
-    console.log(value)
   }, [name, value, type])
   
   if(display.show)

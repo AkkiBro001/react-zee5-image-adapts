@@ -1,15 +1,40 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap'
 import ToolTip from './ToolTip'
 import { AiFillInfoCircle } from 'react-icons/ai';
 import { FaLink } from 'react-icons/fa';
 import LoacalSaveData from './LocalSaveData';
-
-
+import { useLocalStorage } from '../Hooks';
+import { useGlobalNotiContext } from '../Context/Notification_Context';
+import { ACTION_TYPE } from '../Context/Notification_Context';
 
 const ModalBox = ({ showModal, handleCloseModal }) => {
+  const {dispatchNoti} = useGlobalNotiContext()
+  
+  
+  const [generalSetting, setGeneralSetting] = useLocalStorage("GenralSetting")
+  
+  const preStroageValue = useRef(
+    JSON.parse(localStorage.getItem("GenralSetting")) || generalSetting
+  )
 
+  //!Element Ref
+  const floatingRef = useRef(null) 
+  
+  
+  function updateStorage(eventName){
+    if(eventName === "save_modal"){
+     dispatchNoti({type: ACTION_TYPE.UPDATE_STORAGE})
+     preStroageValue.current = generalSetting;
+     console.log(preStroageValue.current, "Saving")
+    }else{ //When Close Button Click
+     console.log(preStroageValue.current, "Closing")
 
+      floatingRef.current.checked = preStroageValue.current.isFloating;
+      setGeneralSetting(()=> preStroageValue.current)
+    }
+  }
+  
 
   return (
     <Modal show={showModal} onHide={handleCloseModal}>
@@ -25,9 +50,10 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
             <Form.Control
               type="color"
               id="CanvasColor"
-              defaultValue="#000000"
+              defaultValue={generalSetting.bgColor}
               title="Canvas BG"
               size='sm'
+              onChange={(e)=>setGeneralSetting(preVal => ({...preVal, bgColor: e.target.value}))}
             />
           </Col>
 
@@ -36,6 +62,9 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
               type="switch"
               id="floting-switch"
               label="Floating Preview"
+              checked = {generalSetting.isFloating}
+              onChange={(e)=>setGeneralSetting(preVal => ({...preVal, isFloating: !preVal.isFloating}))}
+              ref = {floatingRef}
             />
 
             <ToolTip tip="Float preview screen while scrolling">
@@ -175,10 +204,10 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
         </Row>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseModal}>
+        <Button variant="secondary" onClick={(e)=>{handleCloseModal();updateStorage(e.target.name)}} name="close_modal">
           Close
         </Button>
-        <Button variant="primary" onClick={handleCloseModal}>
+        <Button variant="primary" onClick={(e)=>{handleCloseModal();updateStorage(e.target.name)}} name="save_modal">
           Save Changes
         </Button>
       </Modal.Footer>

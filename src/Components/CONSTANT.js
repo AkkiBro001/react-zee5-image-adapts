@@ -13,7 +13,7 @@ const NOTIFICATION = {
     Preview: {
         guides: false,
         size: DEFAULT_NOTI_SIZE,
-        isFloting: false,
+        isFloating: false,
         bgColor: '#000'
     },
     /* Import Section */

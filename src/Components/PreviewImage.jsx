@@ -9,18 +9,20 @@ function getSize({width, height}) {
     }
 
 }
-
 const PreviewImage = () => {
+ 
 
   const {NotiData} = useGlobalNotiContext()
+  
+
+  
 
   const CanvasSize = getSize(NotiData.Preview.size)
-
   const PreviewStyle = {
     width: '100%',
     aspectRatio: CanvasSize,
     backgroundColor: NotiData.Preview.bgColor,
-    position: `${NotiData.Preview.isFloting ? 'sticky' :  'static'}`,
+    position: `${NotiData.Preview.isFloating ? 'sticky' :  'static'}`,
     top:0,
     zIndex: 100, 
   } 

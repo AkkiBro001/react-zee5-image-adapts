@@ -11,28 +11,30 @@ import NotificationContext from './Context/Notification_Context';
 function App() {
   return (
     <BrowserRouter>
-      <Container className='p-0 position-relative'>
-        <Navigation />
+      <NotificationContext>
+        <Container className='p-0 position-relative'>
+          <Navigation />
 
 
-        <Routes>
-          <Route path='/react-zee5-image-adapts/notification' element={
-            <NotificationContext>
+
+          <Routes>
+            <Route path='/react-zee5-image-adapts/notification' element={
+
               <Notification />
-            </NotificationContext>
-          } />
-          <Route path='/react-zee5-image-adapts'
-            element={<NotificationContext>
-              <Notification />
-            </NotificationContext>} />
-          <Route path='/react-zee5-image-adapts/banner' element={<Banner />} />
-        </Routes>
+
+            } />
+            <Route path='/react-zee5-image-adapts'
+              element={
+                <Notification />
+              } />
+            <Route path='/react-zee5-image-adapts/banner' element={<Banner />} />
+          </Routes>
 
 
 
 
-
-      </Container>
+        </Container>
+      </NotificationContext>
     </BrowserRouter>
   );
 }

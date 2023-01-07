@@ -8,6 +8,7 @@ const Navigation = () => {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
+  
   return (
     <Navbar bg="primary" variant="dark" expand="md">
       <Container>
