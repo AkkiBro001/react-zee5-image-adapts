@@ -1,33 +1,23 @@
-import {useEffect, useState} from 'react'
+import { useState } from 'react';
 import { Alert } from 'react-bootstrap'
 
-const AlertBox = ({name, value, type}) => {
-
- 
+const AlertBox = ({alertDisplay, alertType, alertTitle, alerMsg, handleClose}) => {
   
-  const [display, setDisplay] = useState({
-    name,
-    value,
-    type,
-    show: true,
-    title: '',
-    errorType: 'danger',
-    msg: ''
+if(alertDisplay){
 
-  })
-
-  useEffect(()=>{
-  }, [name, value, type])
-  
-  if(display.show)
   return (
-    <Alert variant={display.errorType} onClose={()=>setDisplay(preVal => ({...preVal, show: false}))} dismissible>
-        <Alert.Heading>{display.title}</Alert.Heading>
+    <Alert variant={alertType} onClick={()=>handleClose(pre=> ({...pre, status: false}))} dismissible>
+        <Alert.Heading>{alertTitle}</Alert.Heading>
+        {typeof alerMsg === 'object' ? 
         <p>
-          {display.msg}
+          {alerMsg.msgObj.map((msg, index) => <span key={index}>{msg} <br/></span>)}
         </p>
+        :<p>{alerMsg}</p>}
     </Alert>
   )
+}else{
+  return null;
+}
 }
 
 export default AlertBox

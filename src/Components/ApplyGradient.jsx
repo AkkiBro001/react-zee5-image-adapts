@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import ToolTip from './ToolTip'
 import {AiFillInfoCircle} from 'react-icons/ai'
 import { Col, Row, Form } from 'react-bootstrap'
@@ -48,7 +48,7 @@ const ApplyGradient = ({tip, type}) => {
                 </Col>
                 <Col md={12} lg={12} xl={12} className="mt-3">
                 <Form.Label>Opacity</Form.Label>
-                <Form.Range />
+                <Form.Range disabled={!isOn.isDark && !isOn.isLight}/>
                 <div className='d-flex justify-content-between text-muted'>
                   <span>0%</span>
                   <span>50%</span>

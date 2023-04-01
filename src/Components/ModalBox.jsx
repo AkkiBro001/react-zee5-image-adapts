@@ -1,47 +1,44 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap'
 import ToolTip from './ToolTip'
 import { AiFillInfoCircle } from 'react-icons/ai';
 import { FaLink } from 'react-icons/fa';
 import LoacalSaveData from './LocalSaveData';
 import { useLocalStorage } from '../Hooks';
-import { useGlobalNotiContext } from '../Context/Notification_Context';
-import { ACTION_TYPE } from '../Context/Notification_Context';
+import AlertBox from './AlertBox';
+
 
 const ModalBox = ({ showModal, handleCloseModal }) => {
-  const {dispatchNoti} = useGlobalNotiContext()
-  
-  
+  const [sizeEdit, setSizeEdit] = useState({isSizeEdit: false, isSizeDelete: false, activeValue: ''})
+  const [showAlert, setShowAlert] = useState({ status: false, type: 'danger', msg: 'error', title: '' })
   const [generalSetting, setGeneralSetting] = useLocalStorage("GenralSetting")
   
-  const preStroageValue = useRef(
-    JSON.parse(localStorage.getItem("GenralSetting")) || generalSetting
-  )
+
+ 
 
   //!Element Ref
-  const floatingRef = useRef(null) 
+  const floatingRef = useRef(null)
   
-  
-  function updateStorage(eventName){
-    if(eventName === "save_modal"){
-     dispatchNoti({type: ACTION_TYPE.UPDATE_STORAGE})
-     preStroageValue.current = generalSetting;
-     console.log(preStroageValue.current, "Saving")
-    }else{ //When Close Button Click
-     console.log(preStroageValue.current, "Closing")
 
-      floatingRef.current.checked = preStroageValue.current.isFloating;
-      setGeneralSetting(()=> preStroageValue.current)
-    }
+  let SavedSizeOBJ = JSON.parse(localStorage.getItem('CustomSize'))
+  if (SavedSizeOBJ) {
+    SavedSizeOBJ = SavedSizeOBJ.map(sizes => {
+      const size = sizes.split('x')
+      return { w: size[0], h: size[1] }
+    })
+  }else{
+    SavedSizeOBJ = []
   }
-  
+
+
 
   return (
     <Modal show={showModal} onHide={handleCloseModal}>
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>Setting</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+      {showAlert.status && <AlertBox alertDisplay={true} alertType={showAlert.type} alerMsg={showAlert.msg} alertTitle={showAlert.title} handleClose={setShowAlert} />}
         {/* -------- General Setting ---------------------------------- */}
         <h2 className='fs-5 mb-3'>General Settings</h2>
         <Row className='align-items-start g-2 align-items-center'>
@@ -53,7 +50,7 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
               defaultValue={generalSetting.bgColor}
               title="Canvas BG"
               size='sm'
-              onChange={(e)=>setGeneralSetting(preVal => ({...preVal, bgColor: e.target.value}))}
+              onChange={(e) => setGeneralSetting(preVal => ({ ...preVal, bgColor: e.target.value }))}
             />
           </Col>
 
@@ -62,9 +59,9 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
               type="switch"
               id="floting-switch"
               label="Floating Preview"
-              checked = {generalSetting.isFloating}
-              onChange={(e)=>setGeneralSetting(preVal => ({...preVal, isFloating: !preVal.isFloating}))}
-              ref = {floatingRef}
+              checked={generalSetting.isFloating}
+              onChange={(e) => setGeneralSetting(preVal => ({ ...preVal, isFloating: !preVal.isFloating }))}
+              ref={floatingRef}
             />
 
             <ToolTip tip="Float preview screen while scrolling">
@@ -104,95 +101,102 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
         {/* -------- Notification Setting ---------------------------------- */}
         <hr className='mt-3 mb-3' />
         <h2 className='fs-5 mb-3'><span>Notification Settings</span></h2>
-
-        <LoacalSaveData type="notification" subType="size" data={[{ w: 250, h: 350 }]} />
-        <Row>
-          <Col xs={4} md={5}>
-            <Form.Group className="mb-3">
-              <Form.Control type="number" placeholder="Width" />
-            </Form.Group>
+        {SavedSizeOBJ.length ? <>
+          <LoacalSaveData type="notification" subType="size" data={SavedSizeOBJ} getValue={setSizeEdit}/>
+          { 
+            
+            sizeEdit.isSizeEdit && <Row>
+            
+            <Col xs={4} md={5}>
+              <Form.Group className="mb-3">
+                <Form.Control type="number" placeholder="Width" defaultValue={sizeEdit.activeValue.split('x')[0]}/>
+              </Form.Group>
+            </Col>
+            <Col xs={4} md={5}>
+              <Form.Group className="mb-3">
+                <Form.Control type="number" placeholder="Height" defaultValue={sizeEdit.activeValue.split('x')[1]}/>
+              </Form.Group>
+            </Col>
+            <Col xs={4} md={2}>
+              <Button variant="primary" className='w-100'>Save</Button>
+            </Col>
+          </Row>}
+        </> : <Row>
+          <Col>
+            <div>No Saved Custom Size</div>
           </Col>
-          <Col xs={4} md={5}>
-            <Form.Group className="mb-3">
-              <Form.Control type="number" placeholder="Height" />
-            </Form.Group>
-          </Col>
-          <Col xs={4} md={2}>
-            <Button variant="primary" className='w-100'>Save</Button>
-          </Col>
-        </Row>
-
+        </Row>}
 
 
         <LoacalSaveData type="notification" subType="cta" data={[{ name: "play now" }, { name: "what is this" }]} />
         <Row className='mt-2 align-items-xl-start'>
-              {/* CTA Name */}
-              
-            <Col xs={12}>
-              <Form.Label className='fs-5 mt-0'><strong>CTA Name</strong></Form.Label>
-              <Form.Control size="md" type="text" placeholder="Text Here..." />
-            </Col>
+          {/* CTA Name */}
 
-            {/* x, y, Width, Height, Radius of CTA */}
-            <Col xs={7} className="mt-lg-2">
-              <Row className={`mt-lg-0 mt-1 g-2 text-dark justify-content-center`}>
+          <Col xs={12}>
+            <Form.Label className='fs-5 mt-0'><strong>CTA Name</strong></Form.Label>
+            <Form.Control size="md" type="text" placeholder="Text Here..." />
+          </Col>
 
-                <Col xs={6 } className="mt-0">
-                  <Form.Label className='fs-6'><strong>X-Axis</strong></Form.Label>
-                  <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
-                </Col>
-                <Col xs={6 } className="mt-0">
-                  <Form.Label className='fs-6'><strong>Y-Axis</strong></Form.Label>
-                  <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
-                </Col>
-                <Col xs={6 } className="position-relative mt-0">
-                  <FaLink className="position-absolute fs-6 widthLinkCTA text-muted" />
-                  <Form.Label className='fs-6'><strong>Width</strong></Form.Label>
-                  <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
-                </Col>
-                <Col xs={6 } className="mt-0">
-                  <Form.Label className='fs-6'><strong>Height</strong></Form.Label>
-                  <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
-                </Col>
-                <Col xs={12}  className="mt-0">
-                  <Form.Label className='fs-6'><strong><span>Border</span> Radius</strong></Form.Label>
-                  <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
-                </Col>
+          {/* x, y, Width, Height, Radius of CTA */}
+          <Col xs={7} className="mt-lg-2">
+            <Row className={`mt-lg-0 mt-1 g-2 text-dark justify-content-center`}>
 
-              </Row>
-            </Col>
+              <Col xs={6} className="mt-0">
+                <Form.Label className='fs-6'><strong>X-Axis</strong></Form.Label>
+                <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
+              </Col>
+              <Col xs={6} className="mt-0">
+                <Form.Label className='fs-6'><strong>Y-Axis</strong></Form.Label>
+                <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
+              </Col>
+              <Col xs={6} className="position-relative mt-0">
+                <FaLink className="position-absolute fs-6 widthLinkCTA text-muted" />
+                <Form.Label className='fs-6'><strong>Width</strong></Form.Label>
+                <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
+              </Col>
+              <Col xs={6} className="mt-0">
+                <Form.Label className='fs-6'><strong>Height</strong></Form.Label>
+                <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
+              </Col>
+              <Col xs={12} className="mt-0">
+                <Form.Label className='fs-6'><strong><span>Border</span> Radius</strong></Form.Label>
+                <Form.Control type="number" size="sm" className='p-1 text-center fs-6' />
+              </Col>
 
-            {/* BG Color, Play Button, Save Button */}
-            <Col className='d-flex mt-lg-2 mt-1' xs={5} lg={4}>
-              <Row className='g-2 w-100'>
-                <Col sm={12} className="d-flex justify-content-end flex-column">
-                  <Form.Label htmlFor="exampleColorInput" className='fs-6 mt-0'><strong>BG Color</strong></Form.Label>
-                  <Form.Control
-                    type="color"
-                    id="exampleColorInput"
-                    defaultValue="#563d7c"
-                    title="Choose your color"
-                    size="md"
-                  />
-                </Col>
+            </Row>
+          </Col>
 
-                <Col sm={12} className="d-flex justify-content-end flex-column">
-                  <Form.Label className='fs-6 mt-0'><strong>Play Button</strong></Form.Label>
-                  <Form.Select aria-label="Default select example" size="md">
+          {/* BG Color, Play Button, Save Button */}
+          <Col className='d-flex mt-lg-2 mt-1' xs={5} lg={4}>
+            <Row className='g-2 w-100'>
+              <Col sm={12} className="d-flex justify-content-end flex-column">
+                <Form.Label htmlFor="exampleColorInput" className='fs-6 mt-0'><strong>BG Color</strong></Form.Label>
+                <Form.Control
+                  type="color"
+                  id="exampleColorInput"
+                  defaultValue="#563d7c"
+                  title="Choose your color"
+                  size="md"
+                />
+              </Col>
 
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
+              <Col sm={12} className="d-flex justify-content-end flex-column">
+                <Form.Label className='fs-6 mt-0'><strong>Play Button</strong></Form.Label>
+                <Form.Select aria-label="Default select example" size="md">
 
-                  </Form.Select>
-                </Col>
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
 
-                <Col sm={12} className="d-flex align-items-end">
-                  <Button variant="primary" size="md">Save CTA</Button>
-                </Col>
-              </Row>
-            </Col>
+                </Form.Select>
+              </Col>
 
-          </Row>
+              <Col sm={12} className="d-flex align-items-end">
+                <Button variant="primary" size="md">Save CTA</Button>
+              </Col>
+            </Row>
+          </Col>
+
+        </Row>
 
         {/* -------- Banners Setting ---------------------------------- */}
         <hr className='mt-3 mb-3' />
@@ -204,10 +208,10 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
         </Row>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={(e)=>{handleCloseModal();updateStorage(e.target.name)}} name="close_modal">
+        <Button variant="secondary" name="close_modal">
           Close
         </Button>
-        <Button variant="primary" onClick={(e)=>{handleCloseModal();updateStorage(e.target.name)}} name="save_modal">
+        <Button variant="primary" name="save_modal">
           Save Changes
         </Button>
       </Modal.Footer>

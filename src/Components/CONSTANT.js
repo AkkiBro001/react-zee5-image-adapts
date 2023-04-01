@@ -1,3 +1,5 @@
+
+
 const DEFAULT_NOTI_SIZE = { width: 1024, height: 512 };
 const DEFAULT_CTA = "Watch Live";
 const DEFAULT_CTA_SIZE = { width: null, height: 58 };
@@ -5,9 +7,20 @@ const DEFAULT_CTA_POS = { x: 0, y: 353 };
 const DEFAULT_LIVE_CTA_POS = { x: 0, y: 353 };
 const DEFAULT_LIVE_CTA_SIZE = { width: 1024, height: 115 };
 
+export const MAX_FILE_SIZE = 6291456; //6MB
+
+export let Notification_Type = [
+    "Normal (1024x512)",
+    "3in1 (640x320)",
+    "ZB (800x600)",
+    "Mug (72x72)",
+    "Custom",
+]
+
 const NOTIFICATION = {
     /* General */
     resetAll: false,
+    
 
     /* Preview Size */
     Preview: {
@@ -18,11 +31,8 @@ const NOTIFICATION = {
     },
     /* Import Section */
     Import: {
-        importedImage: [],
-        isCustomOn: false,
-        isPreviewOn: false,
-        customSize: { width: DEFAULT_NOTI_SIZE.width, height: DEFAULT_NOTI_SIZE.height },
-        isSavedSize: false /* is Size saved in LocalStorage */
+        images: null,
+        notiSize: null
     },
 
     Transform: {
@@ -76,13 +86,7 @@ export const TitleCase = (str) => {
     return strArr.join(" ")
 }
 
-export const Notification_Type = [
-    "Normal (1024x512)",
-    "3in1 (640x320)",
-    "ZB (800x600)",
-    "Mug (72x72)",
-    "Custom",
-]
+
 
 export const CTAs = [
     "Avail Now",
