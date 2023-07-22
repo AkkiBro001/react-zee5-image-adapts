@@ -1,44 +1,48 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState} from 'react'
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap'
 import ToolTip from './ToolTip'
-import { AiFillInfoCircle } from 'react-icons/ai';
+import { AiFillInfoCircle, AiFillEdit, AiFillDelete } from 'react-icons/ai';
 import { FaLink } from 'react-icons/fa';
 import LoacalSaveData from './LocalSaveData';
-import { useLocalStorage } from '../Hooks';
-import AlertBox from './AlertBox';
+import AlertBox from './AlertBox'
+
+
+
+
+
+
 
 
 const ModalBox = ({ showModal, handleCloseModal }) => {
-  const [sizeEdit, setSizeEdit] = useState({isSizeEdit: false, isSizeDelete: false, activeValue: ''})
-  const [showAlert, setShowAlert] = useState({ status: false, type: 'danger', msg: 'error', title: '' })
-  const [generalSetting, setGeneralSetting] = useLocalStorage("GenralSetting")
+
+  
+  
+  
+const [showAlert, setShowAlert] = useState({
+    alertDisplay: false, 
+    alertType: '', 
+    alertTitle: '', 
+    alertMsg: '', 
+    
+  })
   
 
- 
+
 
   //!Element Ref
   const floatingRef = useRef(null)
-  
-
-  let SavedSizeOBJ = JSON.parse(localStorage.getItem('CustomSize'))
-  if (SavedSizeOBJ) {
-    SavedSizeOBJ = SavedSizeOBJ.map(sizes => {
-      const size = sizes.split('x')
-      return { w: size[0], h: size[1] }
-    })
-  }else{
-    SavedSizeOBJ = []
-  }
-
+  const customSizeHeightRef = useRef(null)
+  const customSizeWidthRef = useRef(null)
+  const Saved_Noti_Size_Ref = useRef(null)
 
 
   return (
-    <Modal show={showModal} onHide={handleCloseModal}>
+    <Modal show={showModal} onHide={handleCloseModal} backdrop="static">
       <Modal.Header>
         <Modal.Title>Setting</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      {showAlert.status && <AlertBox alertDisplay={true} alertType={showAlert.type} alerMsg={showAlert.msg} alertTitle={showAlert.title} handleClose={setShowAlert} />}
+
         {/* -------- General Setting ---------------------------------- */}
         <h2 className='fs-5 mb-3'>General Settings</h2>
         <Row className='align-items-start g-2 align-items-center'>
@@ -47,10 +51,10 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
             <Form.Control
               type="color"
               id="CanvasColor"
-              defaultValue={generalSetting.bgColor}
               title="Canvas BG"
               size='sm'
-              onChange={(e) => setGeneralSetting(preVal => ({ ...preVal, bgColor: e.target.value }))}
+              defaultValue="#000"
+              
             />
           </Col>
 
@@ -59,8 +63,6 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
               type="switch"
               id="floting-switch"
               label="Floating Preview"
-              checked={generalSetting.isFloating}
-              onChange={(e) => setGeneralSetting(preVal => ({ ...preVal, isFloating: !preVal.isFloating }))}
               ref={floatingRef}
             />
 
@@ -76,7 +78,7 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
               type="switch"
               id="guide-switch"
               label="Guides"
-            />
+             />
 
             <ToolTip tip="Enable/disable guidelines">
               <Form.Label className='toolTip'>
@@ -86,7 +88,9 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
           </Col>
 
           <Col xs={12} sm={12} className="d-flex align-items-center justify-content-sm-center">
-            <Button variant="primary">
+            <Button variant="primary"
+              
+            >
               Reset All
             </Button>
             <ToolTip tip="Delete all saved template and restore default">
@@ -101,32 +105,72 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
         {/* -------- Notification Setting ---------------------------------- */}
         <hr className='mt-3 mb-3' />
         <h2 className='fs-5 mb-3'><span>Notification Settings</span></h2>
-        {SavedSizeOBJ.length ? <>
-          <LoacalSaveData type="notification" subType="size" data={SavedSizeOBJ} getValue={setSizeEdit}/>
-          { 
-            
-            sizeEdit.isSizeEdit && <Row>
-            
-            <Col xs={4} md={5}>
-              <Form.Group className="mb-3">
-                <Form.Control type="number" placeholder="Width" defaultValue={sizeEdit.activeValue.split('x')[0]}/>
-              </Form.Group>
-            </Col>
-            <Col xs={4} md={5}>
-              <Form.Group className="mb-3">
-                <Form.Control type="number" placeholder="Height" defaultValue={sizeEdit.activeValue.split('x')[1]}/>
-              </Form.Group>
-            </Col>
-            <Col xs={4} md={2}>
-              <Button variant="primary" className='w-100'>Save</Button>
-            </Col>
-          </Row>}
-        </> : <Row>
-          <Col>
-            <div>No Saved Custom Size</div>
-          </Col>
-        </Row>}
+        <AlertBox  alertDisplay= {showAlert.alertDisplay} alertType = {showAlert.alertType} alertTitle={showAlert.alertTitle} alertMsg={showAlert.alertMsg} setAlert={setShowAlert}/>
+        
+            <Row className='align-items-end mb-3'>
+              <Col xs={6} sm={8}>
+                <Form.Label className='fs-6'>
+                  <strong>Saved Size</strong>
+                </Form.Label>
+                <Form.Select aria-label="Default select example" className='w-100'
+                name="Saved_Noti_Size"
+                ref={Saved_Noti_Size_Ref}
+                >
+                  
+                    <option value="" >test</option>
+                    
+                   
 
+
+                </Form.Select>
+              </Col>
+
+              <Col xs={3} sm={2}>
+                <Button variant="primary" className='w-100 fs-5' size="sm"
+                
+                >
+                  <AiFillEdit />
+                </Button>
+              </Col>
+
+              <Col xs={3} sm={2}>
+                <Button variant="danger" className='w-100 fs-5' size="sm"
+                onClick={()=>{
+                 
+                  
+                }}
+                >
+                  <AiFillDelete />
+                </Button>
+              </Col>
+            </Row>
+
+            
+            <Row>
+              <Col xs={4} md={5}>
+                <Form.Group className="mb-3">
+                  <Form.Control type="number" placeholder="Width" ref={customSizeWidthRef} defaultValue=""/>
+                </Form.Group>
+              </Col>
+              <Col xs={4} md={5}>
+                <Form.Group className="mb-3">
+                  <Form.Control type="number" placeholder="Height" ref={customSizeHeightRef} defaultValue=""/>
+                </Form.Group>
+              </Col>
+              <Col xs={4} md={2}>
+                <Button variant="primary" className='w-100'
+                
+                >Save
+                </Button>
+              </Col>
+            </Row>
+          
+            <Row>
+              <Col>
+                <div>No Saved Custom Size</div>
+              </Col>
+            </Row>
+        
 
         <LoacalSaveData type="notification" subType="cta" data={[{ name: "play now" }, { name: "what is this" }]} />
         <Row className='mt-2 align-items-xl-start'>
@@ -208,10 +252,14 @@ const ModalBox = ({ showModal, handleCloseModal }) => {
         </Row>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" name="close_modal">
+        <Button variant="secondary" name="close_modal"
+          
+        >
           Close
         </Button>
-        <Button variant="primary" name="save_modal">
+        <Button variant="primary" name="save_modal"
+          
+        >
           Save Changes
         </Button>
       </Modal.Footer>

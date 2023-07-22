@@ -27,7 +27,7 @@ const NOTIFICATION = {
         guides: false,
         size: DEFAULT_NOTI_SIZE,
         isFloating: false,
-        bgColor: '#000'
+        bgColor: '#000000'
     },
     /* Import Section */
     Import: {

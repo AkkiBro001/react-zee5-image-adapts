@@ -3,13 +3,12 @@ import { Col, Row, Form } from 'react-bootstrap'
 import { TiPlus, TiMinus } from 'react-icons/ti'
 import { COPYTEXT, DefaultCopyPosition } from './CONSTANT'
 import ApplyGradient from './ApplyGradient';
-import { useHandleInput } from '../Hooks';
-import {FaLink} from 'react-icons/fa';
+
+
 
 
 const CopyText = () => {
   const [expand, setExpand] = useState(true)
-  const [input, setInput] = useHandleInput({name: '', value: ''})
   const copyRef = useRef(null)
   const customCopyPositionRef = useRef(null)
   const isCustomCopyActive = !copyRef.current ? false : copyRef.current?.value === "custom copy" ? true : false;
@@ -28,7 +27,7 @@ const CopyText = () => {
           <Col sm={12} md={isCustomCopyActive ? 4 : !isNoCopyActive ? 8 : 12} 
           className={`mb-md-0 mb-3 ${isCustomCopyActive ? 'd-flex flex-column justify-content-lg-between' : ''}`}>
             <Form.Label className='fs-5'><strong>COPY</strong></Form.Label>
-            <Form.Select aria-label="Default select example" size="lg" onChange={(e)=>setInput(e)} name="copy"
+            <Form.Select aria-label="Default select example" size="lg" name="copy"
             ref={copyRef}>
               <optgroup label="Select Copy">
                 {COPYTEXT.map(copy => {
@@ -40,7 +39,7 @@ const CopyText = () => {
 
             {/* COPY Position */}
             {isCustomCopyActive && <><Form.Label className='fs-5 mt-1'><strong>Copy Position</strong></Form.Label>
-            <Form.Select aria-label="Default select example" size="lg" onChange={(e)=>setInput(e)} name="copy position" ref={customCopyPositionRef}>
+            <Form.Select aria-label="Default select example" size="lg" name="copy position" ref={customCopyPositionRef}>
               <optgroup label="Select Copy Position">
                  {DefaultCopyPosition.map(pos => <option value={pos.toLowerCase()} key={pos}>{pos}</option>)}
                  

@@ -2,6 +2,9 @@ import { useRef, useState } from 'react'
 import { Row, Col, Button, Form } from 'react-bootstrap'
 import { TiPlus, TiMinus } from 'react-icons/ti'
 import { AiOutlineClose } from 'react-icons/ai'
+import AlertBox from './AlertBox'
+
+
 
 
 
@@ -11,14 +14,9 @@ const ImportSection = () => {
   const fileRef = useRef(null)
   const customCTAWidthRef = useRef(null)
   const customCTAHeightRef = useRef(null)
-  
+
  
-  const isCustomNotiTypeActive = !notiTypeRef.current?.value ? false : notiTypeRef.current?.value === 'custom' ? true : false;
 
-
-
-    
-  
 return (
     <div className="section">
       <header>
@@ -26,7 +24,7 @@ return (
         {expand ? <TiMinus onClick={() => setExpand(false)} /> : <TiPlus onClick={() => setExpand(true)} />}
       </header>
       {expand && <div className="section__body">
-
+      <AlertBox/>
         
         <Row className="mb-3">
           <Col md={8}>
@@ -36,9 +34,10 @@ return (
           </Col>
           <Col md={4}>
             <Form.Select aria-label="Default select example" size="lg" ref={notiTypeRef}
+           
             >
               <optgroup label="Notification Type">
-                <option value="" >1024x505</option>
+                
               </optgroup>
             </Form.Select>
           </Col>
@@ -46,7 +45,7 @@ return (
 
         
 
-        {isCustomNotiTypeActive && <Row className="mb-3 align-items-center justify-content-center">
+       <Row className="mb-3 align-items-center justify-content-center">
           <Col xs={9} sm={7} md={5}>
             <Row className='align-items-center'>
               <Col xs={5}>
@@ -72,11 +71,11 @@ return (
 
           <Col xs={3} sm={3} md={3}>
             <Button variant="primary" size="md" className='w-100'
-              
+            
             >Save <span className='d-sm-inline d-none'>Size</span></Button>
 
           </Col>
-        </Row>}
+        </Row>
 
 
         

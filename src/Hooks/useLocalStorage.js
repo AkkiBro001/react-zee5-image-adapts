@@ -1,36 +1,23 @@
-import {useEffect, useState} from 'react';
-import NOTIFICATION from '../Components/CONSTANT';
+import {useState} from 'react'
 
-function getSavedData (key, initialValue) {
+function getSavedValue(key, initialValue){
+  
     const savedValue = JSON.parse(localStorage.getItem(key))
-    if(savedValue) return savedValue;
+    if(savedValue) return savedValue
     
-    if(key && !initialValue){
-        if(key === "GenralSetting"){
-          return NOTIFICATION.Preview
-        }else{
-          return null
-        }
-    }
 
     if(initialValue instanceof Function) return initialValue()
-    return initialValue
-
+    return initialValue;
 }
 
 const useLocalStorage = (key, initialValue) => {
 
-    const [storage, setStorage] = useState(()=>{
-        return getSavedData (key, initialValue)
-      })
-
-  useEffect(()=>{
-    if(!storage) return 
-    localStorage.setItem(key, JSON.stringify(storage))
-  }, [storage])
+  const [value, setValue] = useState(() => getSavedValue(key, initialValue))
 
   
-  return [storage, setStorage]
+  
+  
+  return [value, setValue]
 }
 
 export default useLocalStorage

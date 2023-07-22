@@ -3,7 +3,7 @@ import { Col, Row, Form, Button } from 'react-bootstrap';
 import {AiFillEdit, AiFillDelete} from 'react-icons/ai';
 import { TitleCase } from './CONSTANT';
 
-const LoacalSaveData = ({type, subType, data}) => {
+const LoacalSaveData = ({type, subType, data, controlData, setCloneCustomSize}) => {
     const selectRef = useRef(null)
     
 
@@ -17,13 +17,15 @@ const LoacalSaveData = ({type, subType, data}) => {
             ref={selectRef}
            
             >
-             <option value="">{"1024x810"}</option>
+            <option value="">Play Now</option>
+            
+             
             </Form.Select>
           </Col>
   
           <Col xs={3} sm={2}>
             <Button variant="primary" className='w-100 fs-5' size="sm"
-            
+            onClick={()=>controlData({isSizeEdit: true, isSizeDelete: false, activeValue: selectRef.current.value})}
             >
               <AiFillEdit/>
             </Button>
