@@ -1,17 +1,13 @@
 import { Alert } from 'react-bootstrap'
 
-const AlertBox = ({alertDisplay, alertType, alertTitle, alertMsg, setAlert}) => {
+const AlertBox = ({showAlert, alertType, alertTitle, alertMsg, setAlert}) => {
     
-if(alertDisplay){
+if(showAlert){
   
   return (
-    <Alert variant={alertType} onClose={() => setAlert((pre)=>({...pre, alertDisplay: false}))} dismissible>
+    <Alert variant={alertType} onClose={() => setAlert((pre)=>({...pre, showAlert: false}))} dismissible>
         <Alert.Heading>{alertTitle}</Alert.Heading>
-        {typeof alertMsg === 'object' ? 
-        <p>
-          {alertMsg.msgObj.map((msg, index) => <span key={index}>{msg} <br/></span>)}
-        </p>
-        :<p>{alertMsg}</p>}
+          <p>{alertMsg}</p>
     </Alert>
   )
 }else{

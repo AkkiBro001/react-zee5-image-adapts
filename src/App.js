@@ -5,12 +5,15 @@ import Banner from './Pages/Banner/Banner';
 import { Navigation } from './Components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import { Provider } from 'react-redux';
+import Store from './app/Store';
 
 
 
 
 function App() {
   return (
+    <Provider store={Store}>
     <BrowserRouter>
         <Container className='p-0 position-relative'>
       
@@ -37,6 +40,7 @@ function App() {
         </Container>
 
     </BrowserRouter>
+    </Provider>
   );
 }
 

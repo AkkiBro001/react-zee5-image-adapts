@@ -1,39 +1,99 @@
-import React, { useRef, useState} from 'react'
+import React, { useEffect, useRef, useState} from 'react'
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap'
 import ToolTip from './ToolTip'
 import { AiFillInfoCircle, AiFillEdit, AiFillDelete } from 'react-icons/ai';
 import { FaLink } from 'react-icons/fa';
-import LoacalSaveData from './LocalSaveData';
+
 import AlertBox from './AlertBox'
-
-
-
-
-
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSetting } from '../app/SettingSlice/SettingSlice';
+import { DEFAULT_NOTI_SIZES, deleteCustomNotiSize, editCustomNotiSize } from '../app/SettingSlice/NotificationSlice';
 
 const ModalBox = ({ showModal, handleCloseModal }) => {
 
-  
-  
-  
+const Setting = useSelector(state => state.setting)
+const Notification = useSelector(state => state.notification)
+
+const dispatch = useDispatch()
+
 const [showAlert, setShowAlert] = useState({
-    alertDisplay: false, 
-    alertType: '', 
-    alertTitle: '', 
-    alertMsg: '', 
-    
-  })
+  showAlert: false, 
+  alertType: "danger", 
+  alertTitle: "", 
+  alertMsg: "", 
   
+})
+
+//!Element Ref
+const floatingRef = useRef(null)
+const guideRef = useRef(null)
+const bgRef = useRef(null)
+const customSizeHeightRef = useRef(null)
+const customSizeWidthRef = useRef(null)
+const Saved_Noti_Size_Ref = useRef(null)
+
+  const [showCustomSizeEdit, setShowCustomeSizeEdit] = useState(false)
+
+  useEffect(()=>{
+    localStorage.setItem('setting', JSON.stringify(Setting))
+  },[Setting, Notification])
+  
+  const validationCustomSize = () => {
+    const width = customSizeWidthRef.current.value;
+    const height = customSizeHeightRef.current.value;
+    const name = `${width}x${height}`;
+    const {customNotiSize} = Notification;
+    const sizeExist = customNotiSize.find(size => size.name === name);
+    const defaultExitSizes = DEFAULT_NOTI_SIZES.find(size => size.name.match(/(\d+x\d+)/) && size.name.match(/(\d+x\d+)/)[0] === name);
+     if(!width || !height){
+      setShowAlert({
+        showAlert: true, 
+        alertType: "danger", 
+        alertTitle: "Size Error", 
+        alertMsg: "Please enter values in numbers", 
+      })
+    }
+    else if(isNaN(width) || isNaN(height)){
+      setShowAlert({
+        showAlert: true, 
+        alertType: "danger", 
+        alertTitle: "Size Error", 
+        alertMsg: "value must be numbers", 
+      })
+    }
+    else if(Number(width) < 30 || Number(height) < 30 || Number(width) > 1920 || Number(height) > 1920){
+      console.log(Number(width) < 30 || Number(height) < 30)
+      setShowAlert({
+        showAlert: true, 
+        alertType: "danger", 
+        alertTitle: "Size Error", 
+        alertMsg: `Min size must be greater then 30 & Max size must be less than 1920`, 
+      })
+    }
+    else if(sizeExist || defaultExitSizes){
+      setShowAlert({
+        showAlert: true, 
+        alertType: "danger", 
+        alertTitle: "Size Error", 
+        alertMsg: `${name} is already exist`, 
+      })
+    }else{
+
+      dispatch( editCustomNotiSize({targetName: Saved_Noti_Size_Ref.current.value, newValue: {w: parseInt(width), h: parseInt(height), res: 72, name}}))
+      
+      setShowAlert({
+        showAlert: true, 
+        alertType: "success", 
+        alertTitle: "Size Updated", 
+        alertMsg: `${name} is updataed successfully`, 
+      })
+
+      setShowCustomeSizeEdit(false)
+    }
+}
 
 
-
-  //!Element Ref
-  const floatingRef = useRef(null)
-  const customSizeHeightRef = useRef(null)
-  const customSizeWidthRef = useRef(null)
-  const Saved_Noti_Size_Ref = useRef(null)
+  
 
 
   return (
@@ -53,8 +113,8 @@ const [showAlert, setShowAlert] = useState({
               id="CanvasColor"
               title="Canvas BG"
               size='sm'
-              defaultValue="#000"
-              
+              defaultValue= {Setting.generalSetting.bg}
+              ref={bgRef}
             />
           </Col>
 
@@ -64,6 +124,8 @@ const [showAlert, setShowAlert] = useState({
               id="floting-switch"
               label="Floating Preview"
               ref={floatingRef}
+              defaultChecked={Setting.generalSetting.isFloating}
+              
             />
 
             <ToolTip tip="Float preview screen while scrolling">
@@ -78,6 +140,8 @@ const [showAlert, setShowAlert] = useState({
               type="switch"
               id="guide-switch"
               label="Guides"
+              defaultChecked={Setting.generalSetting.isGuideOn}
+              ref={guideRef}
              />
 
             <ToolTip tip="Enable/disable guidelines">
@@ -105,8 +169,11 @@ const [showAlert, setShowAlert] = useState({
         {/* -------- Notification Setting ---------------------------------- */}
         <hr className='mt-3 mb-3' />
         <h2 className='fs-5 mb-3'><span>Notification Settings</span></h2>
-        <AlertBox  alertDisplay= {showAlert.alertDisplay} alertType = {showAlert.alertType} alertTitle={showAlert.alertTitle} alertMsg={showAlert.alertMsg} setAlert={setShowAlert}/>
-        
+        <AlertBox {...showAlert} setAlert={setShowAlert}/>
+        {/* ----------- Saved Custom Size CTA ---------- */}
+            {
+            Notification.customNotiSize.length ?
+            <>
             <Row className='align-items-end mb-3'>
               <Col xs={6} sm={8}>
                 <Form.Label className='fs-6'>
@@ -116,18 +183,18 @@ const [showAlert, setShowAlert] = useState({
                 name="Saved_Noti_Size"
                 ref={Saved_Noti_Size_Ref}
                 >
+                  { 
                   
-                    <option value="" >test</option>
+                  
+                  Notification.customNotiSize.map(size => <option key={size.name} value={size.name}>{size.name}</option>)
                     
-                   
-
-
+                  }
                 </Form.Select>
               </Col>
 
               <Col xs={3} sm={2}>
                 <Button variant="primary" className='w-100 fs-5' size="sm"
-                
+                onClick={()=> setShowCustomeSizeEdit(pre => !pre)}
                 >
                   <AiFillEdit />
                 </Button>
@@ -135,9 +202,14 @@ const [showAlert, setShowAlert] = useState({
 
               <Col xs={3} sm={2}>
                 <Button variant="danger" className='w-100 fs-5' size="sm"
-                onClick={()=>{
-                 
-                  
+                onClick={()=> {
+                  dispatch(deleteCustomNotiSize(Saved_Noti_Size_Ref.current.value));
+                  setShowAlert({
+                    showAlert: true, 
+                    alertType: "success", 
+                    alertTitle: "Size deleted !!", 
+                    alertMsg: `${Saved_Noti_Size_Ref.current.value} deleted successfully`, 
+                  })
                 }}
                 >
                   <AiFillDelete />
@@ -146,36 +218,64 @@ const [showAlert, setShowAlert] = useState({
             </Row>
 
             
-            <Row>
+            {showCustomSizeEdit && <Row>
               <Col xs={4} md={5}>
                 <Form.Group className="mb-3">
-                  <Form.Control type="number" placeholder="Width" ref={customSizeWidthRef} defaultValue=""/>
+                  <Form.Control type="number" placeholder="Width" ref={customSizeWidthRef} defaultValue={`${Saved_Noti_Size_Ref.current?.value.split('x')[0]}`}/>
                 </Form.Group>
               </Col>
               <Col xs={4} md={5}>
                 <Form.Group className="mb-3">
-                  <Form.Control type="number" placeholder="Height" ref={customSizeHeightRef} defaultValue=""/>
+                  <Form.Control type="number" placeholder="Height" ref={customSizeHeightRef} defaultValue={`${Saved_Noti_Size_Ref.current?.value.split('x')[1]}`}/>
                 </Form.Group>
               </Col>
               <Col xs={4} md={2}>
                 <Button variant="primary" className='w-100'
-                
+                onClick={()=> validationCustomSize()}
                 >Save
                 </Button>
               </Col>
-            </Row>
-          
+            </Row>}
+            </>
+            :
+
             <Row>
               <Col>
                 <div>No Saved Custom Size</div>
               </Col>
-            </Row>
+            </Row>}
         
+        <hr />
+         {/* ----------- Saved Custom CTA ---------- */} 
+         {Notification.customNotiCTA.length ? <>
+         <Row className='align-items-end mb-3'>
+              <Col xs={6} sm={8}>
+                <Form.Label className='fs-6'>
+                  <strong>Saved CTA</strong>
+                </Form.Label>
+                <Form.Select aria-label="Default select example" className='w-100'
+                name="Saved_Noti_Size"
+                
+                >
+                  <option value="" >test</option>
+                </Form.Select>
+              </Col>
 
-        <LoacalSaveData type="notification" subType="cta" data={[{ name: "play now" }, { name: "what is this" }]} />
+              <Col xs={3} sm={2}>
+                <Button variant="primary" className='w-100 fs-5' size="sm">
+                  <AiFillEdit />
+                </Button>
+              </Col>
+
+              <Col xs={3} sm={2}>
+                <Button variant="danger" className='w-100 fs-5' size="sm">
+                  <AiFillDelete />
+                </Button>
+              </Col>
+            </Row>
         <Row className='mt-2 align-items-xl-start'>
-          {/* CTA Name */}
-
+          
+          
           <Col xs={12}>
             <Form.Label className='fs-5 mt-0'><strong>CTA Name</strong></Form.Label>
             <Form.Control size="md" type="text" placeholder="Text Here..." />
@@ -241,7 +341,13 @@ const [showAlert, setShowAlert] = useState({
           </Col>
 
         </Row>
-
+        </>
+        :
+        <Row>
+              <Col>
+                <div>No Saved Custom CTA</div>
+              </Col>
+        </Row>}
         {/* -------- Banners Setting ---------------------------------- */}
         <hr className='mt-3 mb-3' />
         <h2 className='fs-5 mb-3'><span>Banner Settings</span></h2>
@@ -253,12 +359,16 @@ const [showAlert, setShowAlert] = useState({
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" name="close_modal"
-          
+          onClick={()=>handleCloseModal()}
         >
           Close
         </Button>
         <Button variant="primary" name="save_modal"
-          
+          onClick={()=>{
+            dispatch(updateSetting(bgRef.current.value, floatingRef.current.checked, guideRef.current.checked));
+            handleCloseModal()
+            
+          }}
         >
           Save Changes
         </Button>
