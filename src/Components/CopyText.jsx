@@ -11,9 +11,15 @@ const CopyText = () => {
   const [expand, setExpand] = useState(true)
   const copyRef = useRef(null)
   const customCopyPositionRef = useRef(null)
-  const isCustomCopyActive = !copyRef.current ? false : copyRef.current?.value === "custom copy" ? true : false;
-  const isNoCopyActive = !copyRef.current ? true : copyRef.current?.value === "no copy" ? true : false;
-  const isCustomCopyPostionActive = !customCopyPositionRef.current ? false : customCopyPositionRef.current?.value === "custom" ? true : false;
+
+  const [inputs, setInputs] = useState({
+      copy: COPYTEXT[0],
+      customCopyPOS: DefaultCopyPosition[0],
+  })
+
+  const isCustomCopyActive = inputs.copy === COPYTEXT[COPYTEXT.length-1] ? true : false;
+  const isNoCopyActive = inputs.copy === COPYTEXT[0] ? true : false;
+  const isCustomCopyPostionActive = inputs.customCopyPOS === "Custom" ? true : false;
   
   return (
     <div className="section">
@@ -28,10 +34,12 @@ const CopyText = () => {
           className={`mb-md-0 mb-3 ${isCustomCopyActive ? 'd-flex flex-column justify-content-lg-between' : ''}`}>
             <Form.Label className='fs-5'><strong>COPY</strong></Form.Label>
             <Form.Select aria-label="Default select example" size="lg" name="copy"
-            ref={copyRef}>
+            ref={copyRef}
+            onChange={(e)=>setInputs(pre => ({...pre, copy: e.target.value}))}
+            >
               <optgroup label="Select Copy">
                 {COPYTEXT.map(copy => {
-                 return <option value={copy.toLowerCase()} key={copy}>{copy}</option>
+                 return <option value={copy} key={copy}>{copy}</option>
                 })}
               </optgroup>
             </Form.Select>
@@ -39,9 +47,11 @@ const CopyText = () => {
 
             {/* COPY Position */}
             {isCustomCopyActive && <><Form.Label className='fs-5 mt-1'><strong>Copy Position</strong></Form.Label>
-            <Form.Select aria-label="Default select example" size="lg" name="copy position" ref={customCopyPositionRef}>
+            <Form.Select aria-label="Default select example" size="lg" name="copy position" ref={customCopyPositionRef}
+            onChange={(e)=>setInputs(pre => ({...pre, customCopyPOS: e.target.value}))}
+            >
               <optgroup label="Select Copy Position">
-                 {DefaultCopyPosition.map(pos => <option value={pos.toLowerCase()} key={pos}>{pos}</option>)}
+                 {DefaultCopyPosition.map(pos => <option value={pos} key={pos}>{pos}</option>)}
                  
                 
               </optgroup>
