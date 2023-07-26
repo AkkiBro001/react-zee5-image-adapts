@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-
+import {forwardRef } from 'react';
 
 
 // eslint-disable-next-line no-unused-vars
@@ -13,7 +13,7 @@ function getSize(width, height) {
     }
 
 }
-const PreviewImage = () => {
+const PreviewImage = forwardRef((_,previewRef) => {
   
   const Setting = useSelector(state => state.setting);
   const Notification = useSelector(state => state.notification);
@@ -30,9 +30,9 @@ const PreviewImage = () => {
   } 
   return (
     <div style={PreviewStyle}>
-        
+        <img alt="" ref={previewRef} style={{width: '100%', height: '100%'}}/>
     </div>
   )
-}
+})
 
 export default PreviewImage

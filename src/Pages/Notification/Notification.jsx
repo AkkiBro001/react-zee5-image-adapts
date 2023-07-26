@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { ActualImage, CopyText, CTASection, ExportSection, ImportSection, PreviewImage, TransformSection} from '../../Components';
 
 
@@ -5,18 +6,18 @@ import { ActualImage, CopyText, CTASection, ExportSection, ImportSection, Previe
 
 const Notification = () => {
   //!Show Actual Image at bottom (For Production it must be false)
-  const ShowActualImage = false;
-  
+  const ShowActualImage = true;
+  const previewRef = useRef()
 
   return (
     <>
-    <PreviewImage/>
+    <PreviewImage ref={previewRef}/>
     <ImportSection/>
     <TransformSection/>
     <CTASection/>
     <CopyText/>
     <ExportSection/>
-    {ShowActualImage && <ActualImage/>}
+    {ShowActualImage && <ActualImage ref={previewRef}/>}
     </>
   )
 }

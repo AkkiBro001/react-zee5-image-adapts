@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap'
 import {TiPlus, TiMinus} from 'react-icons/ti'
+import { useSelector } from 'react-redux'
 
 const Range = ({lable, limits}) => (
       <Col xs={12}>
@@ -14,6 +15,7 @@ const Range = ({lable, limits}) => (
 
 const TransformSection = () => {
   const [expand, setExpand] = useState(true)
+  const {images} = useSelector(state => state.notiImage.data)
   return (
     <div className="section">
       <header>
@@ -25,9 +27,10 @@ const TransformSection = () => {
         <Col xs={12}>
         <Form.Select aria-label="Default select example" size="lg">
         <optgroup label="Selete Image">
-              <option value="img1">Image 1</option>
-              <option value="img2">Image 2</option>
-              <option value="img3">Image 3</option>
+          {
+            images.map((img, index) => <option value="img1" key={index}>Image {index+1} {img?.name && `(${img.name})`}</option>)
+          }
+  
               </optgroup>  
             
             </Form.Select>

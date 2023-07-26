@@ -6,6 +6,9 @@ import AlertBox from './AlertBox'
 import { useDispatch, useSelector } from 'react-redux'
 import { customNotiSizeUpdate, setDefaultNotiSize } from '../app/SettingSlice/NotificationSlice'
 import { DEFAULT_NOTI_SIZES } from "../app/SettingSlice/NotificationSlice"
+import { getImageThunks, loadImage, updateNotiSize } from '../app/SettingSlice/NotiImageSlice'
+import { fetchURL } from '../Utils/Utils'
+
 
 
 
@@ -17,9 +20,13 @@ const ImportSection = () => {
   const customCTAHeightRef = useRef(null)
 
 
-  const Notification = useSelector(state => state.notification);
-  const [notiSize, setNotiSize] = useState(Notification.defaultNotiSize.name)
   const dispatch = useDispatch()
+  const Notification = useSelector(state => state.notification);
+
+  const [notiSize, setNotiSize] = useState(Notification.defaultNotiSize.name)
+  
+  
+  
 
   const [showAlert, setShowAlert] = useState({
     showAlert: false,
@@ -89,7 +96,35 @@ const ImportSection = () => {
     }
   }
 
-  const imageValidation = () => {
+
+  const loadImageValidation = (e) => {
+    
+    const BrowseFiles = e.target.files;
+    if(Notification.defaultNotiSize.name === "3in1 (640x320)" && BrowseFiles.length !== 3){
+      setShowAlert({
+        showAlert: true,
+        alertType: "danger",
+        alertTitle: "Image Error",
+        alertMsg: "For 3in1 (640x320), It's should be 3 images",
+
+      })
+    }else if(BrowseFiles.length > 4){
+      setShowAlert({
+        showAlert: true,
+        alertType: "danger",
+        alertTitle: "Image Error",
+        alertMsg: "Max 4 image needed",
+
+      })
+    }else{
+        
+        const images = [...BrowseFiles].map(file => ({name: file.name, size: file.size, type: file.type}))
+        
+        dispatch(loadImage(BrowseFiles.length, notiSize, Notification.defaultNotiSize, images))
+    }
+  }
+
+  const previewValidation = () => {
     
     const BrowseFiles = fileRef.current;
 
@@ -118,9 +153,15 @@ const ImportSection = () => {
 
       })
     }else{
-        
+          const files = Object.values(fileRef.current.files)
+          localStorage.setItem('activeNotiSize', JSON.stringify({notiSize: Notification.defaultNotiSize, noOfImg: fileRef.current.files.length}))
+          dispatch(getImageThunks({files, fetchURL}))
+          
     }
   }
+
+  
+ 
 
   return (
     <div className="section">
@@ -135,7 +176,7 @@ const ImportSection = () => {
           <Col md={8}>
             <Form.Group controlId="formFileLg" className="mb-3 mb-md-0">
               <Form.Control type="file" size="lg" accept=".jpg, .jpeg, .png, .webp" multiple ref={fileRef}
-
+              onChange={(e)=>{loadImageValidation(e)}}
               />
             </Form.Group>
           </Col>
@@ -146,6 +187,8 @@ const ImportSection = () => {
                 setNotiSize(e.target.value);
                 if (e.target.value === "Custom") return
                 dispatch(setDefaultNotiSize(e.target.value))
+                const activeNotiSize = Notification.notiSize.find(noti => noti.name === e.target.value)
+                dispatch(updateNotiSize(activeNotiSize))
               }
               }
             >
@@ -196,7 +239,7 @@ const ImportSection = () => {
         <Row className="justify-content-center">
           <Col sm={5} md={4} className="d-flex justify-content-center">
             <Button variant="primary" size="lg" className='w-100'
-              onClick={imageValidation}
+              onClick={previewValidation}
               disabled={notiTypeRef.current?.value.toUpperCase() === "CUSTOM" ? true : false}
             >Preview Image</Button>
           </Col>
